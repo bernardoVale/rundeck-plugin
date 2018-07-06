@@ -157,6 +157,7 @@ public class RundeckNotifier extends Notifier implements SimpleBuildStep {
             return;
         }
 
+        listener.getLogger().println();
         RundeckClient rundeck = getDescriptor().getRundeckJobInstance(this.rundeckInstance, this.jobUser, this.jobPassword,this.jobToken);
 
         if (rundeck == null) {
