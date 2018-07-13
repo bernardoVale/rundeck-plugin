@@ -6,7 +6,6 @@ import hudson.model.Run;
 import hudson.model.TaskListener;
 import org.jenkinsci.plugins.workflow.steps.AbstractSynchronousNonBlockingStepExecution;
 import org.jenkinsci.plugins.workflow.steps.StepContextParameter;
-import org.kohsuke.stapler.DataBoundConstructor;
 
 import javax.inject.Inject;
 
@@ -32,9 +31,9 @@ public class RundeckStepExecutor extends AbstractSynchronousNonBlockingStepExecu
     protected Void run() throws Exception {
         listener.getLogger().println("Running Rundeck run job step.");
         RundeckNotifier notifier = new RundeckNotifier(
-                null, step.getJobId(), null, null, null,
-                true, true, null, null,
-                "4omJhZ690koBRIvEagiMRwBKGlSorNwk"
+                step.getRundeckInstanceName(), step.getJobId(), step.getOptions(), step.getNodeFilters(), step.getTag(),
+                step.getShouldWaitForRundeckJob(), step.getShouldFailTheBuild(), step.getJobUser(),
+                step.getJobPassword(), step.getJobToken()
         );
         notifier.perform(build, ws, launcher, listener);
         return null;

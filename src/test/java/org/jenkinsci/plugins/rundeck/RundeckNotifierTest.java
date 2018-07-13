@@ -1,28 +1,14 @@
 package org.jenkinsci.plugins.rundeck;
 
-import com.cloudbees.plugins.credentials.CredentialsDescriptor;
 import com.cloudbees.plugins.credentials.CredentialsScope;
-import com.cloudbees.plugins.credentials.common.StandardUsernameCredentials;
-import com.cloudbees.plugins.credentials.common.StandardUsernamePasswordCredentials;
-import com.cloudbees.plugins.credentials.common.UsernamePasswordCredentials;
 import com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl;
-import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.FilePath;
 import hudson.model.*;
 import hudson.model.Cause.UpstreamCause;
 import hudson.scm.CredentialsSVNAuthenticationProviderImpl;
 import hudson.scm.SVNAuthenticationManager;
 import hudson.scm.SubversionSCM;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Properties;
-
-import hudson.util.Secret;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.jenkinsci.plugins.rundeck.RundeckNotifier.RundeckExecutionBuildBadgeAction;
 import org.junit.Assert;
 import org.jvnet.hudson.test.HudsonHomeLoader.CopyExisting;
@@ -31,17 +17,16 @@ import org.jvnet.hudson.test.MockBuilder;
 import org.rundeck.api.MockRundeckClient;
 import org.rundeck.api.RunJob;
 import org.rundeck.api.RundeckApiException;
-import org.rundeck.api.RundeckClient;
 import org.rundeck.api.domain.RundeckExecution;
-import org.rundeck.api.domain.RundeckExecution.ExecutionStatus;
-import org.rundeck.api.domain.RundeckJob;
 import org.tmatesoft.svn.core.SVNDepth;
-import org.tmatesoft.svn.core.SVNErrorMessage;
-import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationProvider;
-import org.tmatesoft.svn.core.auth.SVNAuthentication;
-import org.tmatesoft.svn.core.internal.wc.DefaultSVNAuthenticationManager;
 import org.tmatesoft.svn.core.wc.SVNClientManager;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.Properties;
 
 /**
  * Test the {@link RundeckNotifier}
@@ -51,7 +36,7 @@ import org.tmatesoft.svn.core.wc.SVNClientManager;
 public class RundeckNotifierTest extends HudsonTestCase {
 
     public void testCommitWithoutTag() throws Exception {
-        RundeckNotifier notifier = new RundeckNotifier("Default", "1", createOptions(), null, "", false, false, null, null, null);
+        RundeckNotifier notifier = new RundeckNotifier(null, "1", createOptions(), null, "", false, false, null, null, null);
         notifier.getDescriptor().addRundeckInstance("Default", new MockRundeckClient());
 
         FreeStyleProject project = createFreeStyleProject();
